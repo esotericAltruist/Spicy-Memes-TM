@@ -1,0 +1,1046 @@
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+/**
+ * 
+ */
+
+/**
+ * @author iD Student
+ *
+ */
+public class TextAdventure {
+
+	/**
+	 * @param args
+	 */
+
+	static String playerName = "Red";
+	static boolean hasSword = false;
+	static boolean hasMagicSword = false;
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		//Array + variables
+		ArrayList<Double> levelUp = new ArrayList<Double>();
+		ArrayList<Integer> shop = new ArrayList<Integer>();
+		Double maxHealth = 25.0;
+		Double playerHealth = maxHealth;
+		Double playerDamage = 6.0;
+		Double level = 1.0;
+		Double playerExp = 0.0;
+		Double expToLvl = 5.0;
+		Integer medKits = 1;
+		Integer swords = 0;
+		Integer magicSwords = 0;
+		Integer expGained = 0;
+		Integer playerTreasure = 0;
+		Integer treasureGained = 0;
+
+		//other vars.
+		Scanner playerInput = new Scanner(System.in);
+
+		String userInput;
+		String enemy = "Pokemon";
+
+		int input = 1;
+		int enemyType = 0;
+		Integer encounterType = 0;
+		double enemyHealth = 15;
+		double enemyDamage = 5;
+		boolean strife = false;
+
+
+		//Reset the array at the beginning and then re-add the values
+		levelUp.clear();
+		levelUp.add(level); //0
+		levelUp.add(playerExp); //1
+		levelUp.add(expToLvl); //2
+		levelUp.add(playerHealth); //3
+		levelUp.add(maxHealth); //4
+		levelUp.add(playerDamage); //5
+
+		shop.clear();
+		shop.add(medKits); //0
+		shop.add(swords); //1
+		shop.add(magicSwords); //2
+		shop.add(playerTreasure); //3
+		shop.add(treasureGained); //4
+		shop.add(encounterType); //5
+
+		//Code start
+		System.out.println("Welcome, adventurer!");
+		System.out.println("Please input a name for your character.");
+		playerName = playerInput.nextLine();
+		do {
+			System.out.println("So your character's name is " + playerName + "?");
+			userInput = playerInput.nextLine();
+			userInput = userInput.toLowerCase();
+
+			if(userInput.contains("yes")){
+				break;
+			} else{
+				System.out.println("Okay, then what is your character's name?");
+				playerName = playerInput.nextLine();
+			}
+		} while (userInput != "yes");
+		System.out.println("Perfect! " + playerName + "'s adventure shall begin shortly. However, first we should "
+				+ "go over the");
+		p();
+		System.out.println("basics of the game.");
+
+		do {
+			p();
+			System.out.println("Firstly, all of your options will be listed with a number. In order to choose");
+			p();
+			System.out.println("one of the options, input the appropriate number. You also sometimes be asked to input any number,");
+			p();
+			System.out.println("simply to progress the narrative. Also, perhaps most importantly, whenever you are presented with a");
+			p();
+			System.out.println("choice, there will always be an extra option to open up your player menu. The option will always be");
+			p();
+			System.out.println("one (1) greater than the last option in the list.");
+			p();
+			System.out.println("(Input any number to continue.)");
+			input = playerInput.nextInt();
+
+			System.out.println("Did you get all that?");
+			System.out.println("1. I understand!");
+			System.out.println("2. Repeat the instructions.");
+			input = playerInput.nextInt();
+			if(input == 1){
+				System.out.println("Great! It looks like " + playerName + " is ready to begin their adventure. Let's start!");
+				break;
+			} else if((input != 1) && (input != 2) && (input != 3)){
+				System.out.println("Please choose one of the available options.");
+			} else if(input == 3){
+				System.out.println("Okay, this is the one exception where your player menu is not available. Nice try, though.");
+				p();
+				System.out.println("Now you get to hear the instructions aallll over again. :>");
+			}
+		} while (userInput != "yes");
+
+
+
+		//Delay for 0.8 seconds for readability
+		try        
+		{
+			Thread.sleep(800);
+		} 
+		catch(InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println("Delta is a large, isolated island set in the middle of the sea."
+				+ " Largely unexplored and highly treacherous,");
+		p();
+		System.out.println("it is a growing center for those love adventure."
+				+ " Many have come to try their hand at winning fame, but few");
+		p();
+		System.out.println("return safely.");
+		try{Thread.sleep(1300);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+		System.out.println("You are one of those who have been tempted across the ocean to Delta."
+				+ " Although you lack experience, you");
+		p();
+		System.out.println("are determined to succeed. Having embarked to Delta on a ship,"
+				+ " you have finally arrived after weeks of travel.");
+		try{Thread.sleep(1500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+		System.out.println();
+		System.out.println("You are now standing on the docks of the city of Via. Via is currently"
+				+ " the only settlement on Delta,");
+		p();
+		System.out.println("as powerful beasts lurk in the wilds further inland.");
+		p();
+		System.out.println("You consult your handy Map to see what Via has to offer. No good adventurer"
+				+ " is caught without their map!");
+		p();
+		System.out.println("In terms of things that an adventurer such as you would be interested in,"
+				+ " Via has a small Shop and an Inn.");
+		p();
+		System.out.println("(Input any number to continue.)");
+		input = playerInput.nextInt();
+
+		//THIS LOOP GOES FOREVER
+		while(strife == false){
+			via(shop, levelUp, encounterType, enemy, input, playerHealth, enemyType, enemyHealth, enemyDamage, 
+					expGained, strife, hasSword, hasMagicSword);
+		}
+
+		//End of public void
+		//closes the scanner
+		//playerInput.close();
+	}
+
+
+	//Function for battle scenarios
+	public static ArrayList<Double> strife(ArrayList<Integer> shop, ArrayList<Double> levelUp, String enemy, 
+			int enemyType,  double enemyHealth, double enemyDamage, boolean strife, boolean hasSword, 
+			boolean hasMagicSword, int expGained){
+
+		Scanner playerInput = new Scanner(System.in);
+
+		int input;
+		 //this 0 shouldnt happen
+		shop.set(5, 1);
+
+
+		while(levelUp.get(3) > 0 && enemyHealth > 0 && strife == true){
+
+			System.out.println();
+			System.out.println("Will you fight (1), use an item/access your player menu (2), or flee (3)?");
+			input = playerInput.nextInt();
+
+			if(input == 1){
+
+				//Player attacks enemy
+				enemyHealth = playerAttack(shop, enemy, levelUp.get(5), enemyHealth, strife, hasSword, hasMagicSword);
+
+				//Skip displaying health is battle is already over
+				if(enemyHealth <= 0){
+					lvlUp(shop, levelUp, expGained, enemy, levelUp.get(0), levelUp.get(1), levelUp.get(2), levelUp.get(3), levelUp.get(4), 
+							levelUp.get(5), shop.get(4));
+					strife = false;
+					break;
+				} else{
+					System.out.println("The " + enemy + " has " + enemyHealth + " HP left.");
+				}
+				System.out.println();
+
+				//Delay for 3 seconds for readability
+				try        
+				{
+					Thread.sleep(1800);
+				} 
+				catch(InterruptedException ex) 
+				{
+					Thread.currentThread().interrupt();
+				}
+
+				//Enemy attacks player
+				levelUp.set(3,enemyAttack(enemy, levelUp.get(3), enemyDamage, strife));
+
+				//Skip displaying health is battle is already over
+				if(levelUp.get(3) <= 0){
+					System.out.println("You were defeated by the " + enemy + "!");
+					strife = false;
+					return levelUp;
+				} else{
+					System.out.println("You have " + levelUp.get(3) + " HP left.");
+				}
+
+			} else if(input == 2){
+
+				menu(shop, levelUp, shop.get(0), shop.get(1), shop.get(2), shop.get(3), 
+						shop.get(4), strife, hasSword, hasMagicSword, enemy, enemyType,
+						enemyHealth, enemyDamage, expGained);
+				//levelUp.set(3,enemyAttack(enemy, levelUp.get(3), enemyDamage, strife));
+
+			} else if(input == 3){
+				System.out.println("You fled the battle!");
+				strife = false;
+				p();
+				System.out.println();
+				break;
+			}
+
+		} //End while
+		//closes the scanner
+		//playerInput.close();
+		
+		return levelUp;
+	} //End strife function
+
+
+	//Function for the player's attack
+	public static double playerAttack(ArrayList<Integer> shop, String enemy, double playerDamage, 
+			double enemyHealth, boolean strife, boolean hasSword, boolean hasMagicSword){
+
+		System.out.println("You attack the " + enemy + "!");
+		Random random = new Random();
+		playerDamage = random.nextInt((int)(playerDamage) +1);
+
+		//Add extra damage if the player possesses a sword
+		if(hasSword){
+			playerDamage += 3;
+		}
+		//Add extra damage if the player possesses a magical sword
+		if(hasMagicSword){
+			playerDamage += 10;
+			System.out.println("Your enchanted sword allowed you to deal extra damage!");
+		}
+		enemyHealth -= playerDamage;
+		if(playerDamage == 0){
+			System.out.println("Whiff! You missed the " + enemy + " entirely.");
+		} else {
+			System.out.println("You dealt "+ playerDamage + " damage to the " + enemy + "!");
+		}
+
+		return enemyHealth;
+	}
+
+	//Function for the enemy's attack
+	public static double enemyAttack(String enemy, double playerHealth, double enemyDamage, boolean strife){
+
+		System.out.println("The " + enemy + " attacks!");
+		Random random = new Random();
+		enemyDamage = random.nextInt((int)(enemyDamage) + 1);
+		playerHealth -= enemyDamage;
+		if(enemyDamage == 0){
+			System.out.println("Whiff! It totally missed you.");
+		} else{
+			System.out.println("The " + enemy + " dealt " + enemyDamage + " damage to you!");
+		}
+
+		return playerHealth;
+	}
+
+	//Function for leveling up
+	public static ArrayList<Double> lvlUp(ArrayList<Integer> shop, ArrayList<Double> levelUp, int expGained,  
+			String enemy, Double level, Double playerExp, Double expToLvl, Double playerHealth, Double maxHealth, 
+			Double playerDamage, int treasureGained){
+
+		Scanner playerInput = new Scanner(System.in);
+		int input;
+		expGained = (int) (expGained/level);
+		playerExp += expGained;
+		shop.set(3, shop.get(3) + treasureGained);
+		System.out.println("You defeated the " + enemy + " and gained " + expGained + " EXP and "
+				+ shop.get(4) + "T!");
+		System.out.println();
+
+		//Delay for 1 second for readability
+		try        
+		{
+			Thread.sleep(1000);
+		} 
+		catch(InterruptedException ex) 
+		{
+			Thread.currentThread().interrupt();
+		}
+
+		if(playerExp >= expToLvl)
+		{
+			level ++;
+			playerExp = 0.0;
+			expToLvl = levelUp.get(0) * 1.2;
+			maxHealth = maxHealth * 0.2 + maxHealth;
+			playerHealth = maxHealth;
+			playerDamage = playerDamage * 0.25 + playerDamage;
+
+			levelUp.set(0, level); //0
+			levelUp.set(1, playerExp); //1
+			levelUp.set(2, expToLvl); //2
+			levelUp.set(3, playerHealth); //3
+			levelUp.set(4, maxHealth); //4
+			levelUp.set(5, playerDamage); //5
+
+			shop.set(4, treasureGained);
+
+			System.out.println(playerName + " leveled up to level " + levelUp.get(0) + "!");
+			System.out.println("HP increased to " + maxHealth + "!");
+			System.out.println("Attack increased to " + playerDamage + "!");
+			p();
+			//input = playerInput.nextInt();
+		}
+		return levelUp;
+	}
+
+	//Function for random encounters
+	public static void encounter(ArrayList<Integer> shop, ArrayList<Double> levelUp, int encounterType, String enemy, 
+		int input, int enemyType, double playerHealth, double enemyHealth, 
+			double enemyDamage, int expGained, boolean strife, boolean hasSword, boolean hasMagicSword){
+
+		Scanner playerInput = new Scanner(System.in);
+		Random random = new Random();
+		input = 1;
+		enemyType = random.nextInt(3);
+
+		if(enemyType == 0){
+			enemyHealth = 20;
+			enemyDamage = 8;
+			enemy = "Cave Bat";
+			expGained = 5;
+			shop.set(4, 5);
+		} else if(enemyType == 1){
+			enemyHealth = 30;
+			enemyDamage = 10;
+			enemy = "Wolf";
+			expGained = 10;
+			shop.set(4, 6);
+		} else if(enemyType == 2){
+			enemyHealth = 40;
+			enemyDamage = 15;
+			enemy = "Dragon";
+			expGained = 25;
+			shop.set(4, 15);
+		}
+		System.out.println("Traveling...");
+
+		while(levelUp.get(3) > 0){
+			enemyType = random.nextInt(3);
+
+			if(enemyType == 0){
+				enemyHealth = 20;
+				enemyDamage = 5;
+				enemy = "Cave Bat";
+				expGained = 5;
+				shop.set(4, 5);
+			} else if(enemyType == 1){
+				enemyHealth = 20;
+				enemyDamage = 10;
+				enemy = "Wolf";
+				expGained = 10;
+				shop.set(4, 5);
+			} else if(enemyType == 2){
+				enemyHealth = 35;
+				enemyDamage = 15;
+				enemy = "Dragon";
+				expGained = 25;
+				shop.set(4, 15);
+			}
+			System.out.println(".");
+			try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+			System.out.println(".");
+			try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+			System.out.println(".");
+			try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+			
+			
+			System.out.println("You are attacked by a " + enemy + "!");
+			strife = true;
+			
+			strife(shop, levelUp, enemy, enemyType, enemyHealth, enemyDamage, strife,
+					hasSword, hasMagicSword,expGained);
+			if(levelUp.get(3) <= 0){
+				strife = false;
+				p();
+				System.out.println("You just barely make it back to Via... You rest in the Inn for a while to recover your strength.");
+				levelUp.set(3, levelUp.get(4));
+				p();
+				System.out.println(".");
+				try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+				System.out.println(".");
+				try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+				System.out.println(".");
+				try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+				System.out.println();
+				return;
+			} 
+			else{
+				System.out.println("Would you like to keep exploring, or go back to Via?");
+				System.out.println("1. Keep exploring");
+				System.out.println("2. Go back to Via");
+				input = playerInput.nextInt();
+
+				do{
+					if(input == 1){
+						System.out.println("You choose to keep exploring.");
+						p();
+						System.out.println("You keep walking...");
+						break;
+					} else if(input == 2){
+						System.out.println("You choose to go back to Via.");
+						p();
+						System.out.println();
+						strife = false;
+						via(shop, levelUp, encounterType, enemy, input, playerHealth, enemyType, enemyHealth, enemyDamage, 
+								expGained, strife, hasSword, hasMagicSword);
+					} else if(input == 3){
+						menu(shop, levelUp, shop.get(0), shop.get(1), shop.get(2), shop.get(3), 
+								shop.get(4), strife, hasSword, hasMagicSword, enemy, enemyType,
+								enemyHealth, enemyDamage, expGained);
+						strife = false;
+						break;
+					} else{
+						System.out.println("Please choose one of the available options.");
+						input = playerInput.nextInt();
+					}
+					break;
+				} while((input != 1) && (input != 2) && (input != 3));
+
+			}
+
+		} //end while loop
+
+	} //end encounter function
+
+	//Function for Via
+	public static void via(ArrayList<Integer> shop, ArrayList<Double> levelUp, int encounterType, 
+			String enemy, int input, double playerHealth, int enemyType, double enemyHealth, double enemyDamage, 
+			int expGained, boolean strife, boolean hasSword, boolean hasMagicSword){
+
+		Scanner playerInput = new Scanner(System.in);
+
+		shop.set(5, 2);
+
+		strife = false;
+
+		do{
+
+			System.out.println("Where would you like to go?");
+			System.out.println("1. Shop");
+			System.out.println("2. Inn");
+			System.out.println("3. Explore Delta");
+			System.out.println("4. End your adventure");
+			input = playerInput.nextInt();
+
+			switch (input) {
+			case 1:
+				System.out.println("You decide to visit the Shop.");
+				p();
+				shop(shop, levelUp, encounterType, enemy, input, playerHealth, enemyType, enemyHealth, enemyDamage, 
+						expGained, strife, shop.get(0), shop.get(1), shop.get(2), shop.get(3), shop.get(4),
+						hasSword, hasMagicSword);
+				break; //end Shop switch
+
+			case 2:
+				System.out.println("You decide to visit the Inn.");
+				p();
+				inn(shop, levelUp, encounterType, enemy, input, enemyType, playerHealth, enemyHealth, 
+						enemyDamage, expGained, strife, hasSword, hasMagicSword);
+				strife = false;
+				break; //end Inn switch
+
+			case 3:
+				System.out.println("You choose to leave Via to explore more of Delta.");
+				p();
+				System.out.println();
+
+				encounter(shop, levelUp, encounterType, enemy, input, enemyType, levelUp.get(3), enemyHealth, 
+						enemyDamage, expGained, strife, hasSword, hasMagicSword);
+				strife = false;
+				break; //end exploration switch
+
+			case 4:
+				System.out.println("You have chosen to happily end your adventure here!");
+				///-------------------------------
+				//THIS WILL END THE GAME RIGHT HERE
+				//--------------------------------
+				System.exit(0);
+				break;
+				
+			case 5:
+				menu(shop, levelUp, shop.get(0), shop.get(1), shop.get(2), shop.get(3), 
+						shop.get(4), strife, hasSword, hasMagicSword, enemy, enemyType, enemyHealth,
+						enemyDamage, expGained);
+				strife = false;
+				break; //end switch for menu
+
+			default: System.out.println("Please choose one of the available options.");
+			}
+		} while((input != 1) && (input != 2) && (input != 3) && (input != 4));
+
+		//End via function
+	}
+
+	//Function for Shop
+	public static ArrayList<Integer> shop(ArrayList<Integer> shop, ArrayList<Double> levelUp, int encounterType, 
+			String enemy, int input, double playerHealth, int enemyType, double enemyHealth, 
+			double enemyDamage, int expGained, boolean strife, int medKits, int swords, int magicSwords, 
+			int playerTreasure, int treasureGained, boolean hasSword, boolean hasMagicSword){
+
+		Scanner playerInput = new Scanner(System.in);
+		shop.set(5, 3);
+
+		strife = false;
+		System.out.println();
+		System.out.println("What would you like to do?");
+		System.out.println("1. Buy");
+		System.out.println("2. Exit Shop");
+		input = playerInput.nextInt();
+
+		do{
+			switch (input){
+			case 1: 
+				System.out.println("What would you like to buy?");
+				System.out.println("You have " + shop.get(3) + " Treasure.");
+				System.out.println("1. Medicine Kit (80T, restores 50 HP)");
+				System.out.println("2. Sword (50T, +3 attack)");
+				System.out.println("3. Enchanted Sword (250T, +10 attack)");
+				System.out.println("4. Exit Shop");
+				input = playerInput.nextInt();
+
+				do{
+					switch(input){
+					case 1:
+						if(shop.get(3) >= 80){		
+							shop.set(0, shop.get(0) + 1);
+							shop.set(3, shop.get(3) - 80);
+
+							System.out.println("You bought a Medicine Kit!");
+							p();
+							return shop;
+
+						} else{
+							System.out.println("You don't have enough treasure to buy that!");
+							input = playerInput.nextInt();
+							break;
+						}
+						//end case for buy medkit
+
+					case 2:
+						if(shop.get(3) >= 50){		
+							shop.set(1, shop.get(1) + 1);
+							shop.set(3, shop.get(3) - 50);
+
+							System.out.println("You bought a Sword!");
+							p();
+							System.out.println("Would you like to equip it now?");
+							System.out.println("1. Equip");
+							System.out.println("2. Don't Equip");
+							input = playerInput.nextInt();
+
+							do{
+								switch(input){
+								case 1:
+									if(hasMagicSword){
+										hasMagicSword = false;
+										System.out.println("You unequipped your Enchanted Sword!");
+									}
+									hasSword = true;
+									System.out.println("You equipped the Sword!");
+									break; //end case 1
+
+								case 2:
+									System.out.println("You didn't equip the Sword.");
+									break; //end case 2
+
+								case 3:
+									menu(shop, levelUp, medKits, swords, magicSwords, playerTreasure, 
+											treasureGained, strife, hasSword, hasMagicSword, enemy, enemyType,
+											enemyHealth, enemyDamage, expGained);
+									break; //end case 3
+								}
+
+							} while((input != 1) && (input != 2) && (input != 3));
+
+						} else{
+							System.out.println("You don't have enough treasure to buy that!");
+							input = playerInput.nextInt();
+							break;
+						}
+						//end case for buy sword
+
+					case 3:
+						if(shop.get(3) >= 250){		
+							shop.set(2, shop.get(2) + 1);
+							shop.set(3, shop.get(3) - 250);
+
+							System.out.println("You bought an Enchanted Sword!");
+							p();
+							System.out.println("Would you like to equip it now?");
+							System.out.println("1. Equip");
+							System.out.println("2. Don't Equip");
+							input = playerInput.nextInt();
+
+							do{
+								switch(input){
+								case 1:
+									if(hasSword){
+										hasSword = false;
+										System.out.println("You unequipped your Sword!");
+									}
+									hasMagicSword = true;
+									System.out.println("You equipped the Enchanted Sword!");
+									System.out.println("(Input any number to continue.)");
+									break; //end case 1
+
+								case 2:
+									System.out.println("You didn't equip the Enchanted Sword.");
+									break; //end case 2
+
+								case 3:
+									menu(shop, levelUp, medKits, swords, magicSwords, playerTreasure, 
+											treasureGained, strife, hasSword, hasMagicSword, enemy, enemyType,
+											enemyHealth, enemyDamage, expGained);
+									break; //end case 3
+								}
+							} while((input != 1) && (input != 2) && (input != 3));
+
+						} else{
+							System.out.println("You don't have enough treasure to buy that!");
+							
+							break;
+						}
+						//end case for buy magic sword
+
+					case 4:
+						System.out.println("You exit the Shop and return to the streets of Via.");
+
+						p();
+						System.out.println();
+						via(shop, levelUp, encounterType, enemy, input, playerHealth, enemyType, enemyHealth, enemyDamage, 
+								expGained, strife, hasSword, hasMagicSword);
+
+						shop.set(4,0);
+						shop.set(3, playerTreasure);
+						shop.set(4, treasureGained);
+						return shop;
+
+						//end case for Exit
+
+					case 5:
+						menu(shop, levelUp, medKits, swords, magicSwords, playerTreasure, 
+								treasureGained, strife, hasSword, hasMagicSword, enemy, enemyType,
+								enemyHealth, enemyDamage, expGained);
+						break;
+						//end case for menu
+
+					default:
+						System.out.println("Please choose one of the available options.");
+						input = playerInput.nextInt();
+					}
+
+				} while((input != 1) && (input != 2) && (input != 3) && (input != 4) && (input != 5));
+
+				shop(shop, levelUp, encounterType, enemy, input, playerHealth, enemyType, enemyHealth, enemyDamage, 
+						expGained, strife, shop.get(0), shop.get(1), shop.get(2), shop.get(3), 
+						shop.get(4), hasSword, hasMagicSword);
+				break; //end case for Buy
+
+			case 2: 
+				System.out.println("You exit the Shop and return to the streets of Via.");
+
+				p();
+				System.out.println();
+				via(shop, levelUp, encounterType, enemy, input, playerHealth, enemyType, enemyHealth, enemyDamage, 
+						expGained, strife, hasSword, hasMagicSword);
+
+				shop.set(4,0);
+				shop.set(3, playerTreasure);
+				shop.set(4, treasureGained);
+				return shop;
+
+				//end case for Exit
+
+			case 3: 
+				menu(shop, levelUp, medKits, swords, magicSwords, playerTreasure, 
+						treasureGained, strife, hasSword, hasMagicSword, enemy, enemyType, enemyHealth,
+						enemyDamage, expGained);
+
+				break; //end case for menu
+
+			default:
+				System.out.println("Please choose one of the available options.");
+				input = playerInput.nextInt();
+			}
+		} while((input != 1) && (input != 2) && (input != 3));
+
+		shop.set(4,0);
+		shop.set(3, playerTreasure);
+		shop.set(4, treasureGained);
+		return shop;
+
+
+		//End shop function
+	}
+
+	//Function for Inn
+
+	public static double inn(ArrayList<Integer> shop, ArrayList<Double> levelUp, int encounterType, 
+			String enemy, int input, int enemyType, double playerHealth, double enemyHealth, 
+			double enemyDamage, int expGained, boolean strife, boolean hasSword, boolean hasMagicSword){
+
+		Scanner playerInput = new Scanner(System.in);
+		shop.set(5, 4);
+
+		strife = false;
+		
+		System.out.println();
+		System.out.println("What would you like to do?");
+		System.out.println("1. Rest");
+		System.out.println("2. Exit Inn");
+		input = playerInput.nextInt();
+
+		do{
+			switch(input){
+			case 1:
+				System.out.println("You decide to rest until the next day.");
+				p();
+				System.out.println(".");
+				try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+				System.out.println(".");
+				try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+				System.out.println(".");
+				try{Thread.sleep(500);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+				System.out.println();
+				levelUp.set(3, levelUp.get(4)) ;
+				System.out.println("Your health was restored!");
+				p();
+				inn(shop, levelUp, encounterType, enemy, input, enemyType, playerHealth, enemyHealth, 
+						enemyDamage, expGained, strife, hasSword, hasMagicSword);
+				return levelUp.get(3); //end case for Resting
+
+			case 2:
+				System.out.println("You exit the Inn and return to the streets of Via.");
+				p();
+				System.out.println();
+				via(shop, levelUp, encounterType, enemy, input, playerHealth, enemyType, enemyHealth, enemyDamage, 
+						expGained, strife, hasSword, hasMagicSword);
+				return playerHealth;
+				//end case for Exit
+
+			case 3:
+				menu(shop, levelUp, shop.get(0), shop.get(1), shop.get(2), shop.get(3), 
+						shop.get(4), strife, hasSword, hasMagicSword, enemy, enemyType, enemyHealth,
+						enemyDamage, expGained);
+				break; //end case for menu
+
+			default:
+				System.out.println("Please choose one of the available options.");
+				input = playerInput.nextInt();
+			}
+
+		} while((input != 1) && (input != 2) && (input != 3));
+
+		return playerHealth;
+		//End Inn function
+	}
+
+	//Function for player menu/using items
+	public static ArrayList<Integer> menu(ArrayList<Integer> shop, ArrayList<Double> levelUp,int medKits, 
+			int swords, int magicSwords, int playerTreasure, int treasureGained, boolean strife, boolean hasSword,
+			boolean hasMagicSword, String enemy, int enemyType, double enemyHealth, double enemyDamage,
+			int expGained){
+
+		Scanner playerInput = new Scanner(System.in);
+		int input;
+
+		System.out.println("You have " + levelUp.get(3) + "/" + levelUp.get(4) + " HP and " + playerTreasure + 
+				" treasure (T).");
+		p();
+		//Print number of Medicine Kits if player has them
+		if(medKits > 0){
+			System.out.println("You have " + medKits + " Medicine Kits.");
+			p();
+		}
+		//Print number of Swords if player has them
+		if(swords > 0){
+			System.out.println("You have " + swords + " Swords.");
+			p();
+		}
+		//Print number of Enchanted Swords if player has them
+		if(magicSwords > 0){
+			System.out.println("You have " + magicSwords + " Enchanted Swords.");
+			p();
+		}
+		//Alt  statement if player has nothing
+		if((medKits == 0) && (swords == 0) && (magicSwords == 0)){
+			System.out.println("You have no items.");
+			p();
+		}
+		//Print if sword is equipped
+		if(hasSword){
+			System.out.println("You have a Sword equipped.");
+			p();
+		}
+		if(hasMagicSword){
+			System.out.println("You have an Enchanted Sword equipped.");
+			p();
+		}
+
+		System.out.println("What would you like to do?");
+		System.out.println("1. Exit");
+		
+		
+
+		if((medKits > 0) || (swords > 0) || (magicSwords > 0)){
+			System.out.println("2. Use an item");
+			System.out.println("3. Equip an item");
+		}
+		input = playerInput.nextInt();
+
+		if((medKits <= 0) && (swords <= 0) && (magicSwords <= 0)){
+			if(input == 1){
+				System.out.println("Exiting...");
+				return shop;
+			}
+			else
+			{
+				System.out.println("Whatever you're exiting anyway");
+				return shop;
+			}
+			
+		}
+		
+		//Allow player to use an item if they have any
+		if((medKits > 0) || (swords > 0) || (magicSwords > 0)){	
+			do{
+				switch(input){
+				case 1:
+					System.out.println("Exiting...");
+					strife = false;
+
+					switch(shop.get(5)){
+					case 1:
+						strife(shop, levelUp, enemy, enemyType, enemyHealth, enemyDamage, strife,
+								hasSword, hasMagicSword,expGained);
+						break; //end case 1
+
+					case 2:
+						via(shop, levelUp, shop.get(5), enemy, input, levelUp.get(3), enemyType, enemyHealth, enemyDamage, 
+								expGained, strife, hasSword, hasMagicSword);
+						break; //end case 2
+
+					case 3:
+						shop(shop, levelUp, shop.get(5), enemy, input, levelUp.get(5), enemyType, enemyHealth, enemyDamage, 
+								expGained, strife, shop.get(0), shop.get(1), shop.get(2), shop.get(3), shop.get(4),
+								hasSword, hasMagicSword);
+						break; //end case 3
+
+					case 4:
+						inn(shop, levelUp, shop.get(5), enemy, input, enemyType, levelUp.get(3), enemyHealth, 
+								enemyDamage, expGained, strife, hasSword, hasMagicSword);
+						break; //end case 4
+
+					default:
+						via(shop, levelUp, shop.get(5), enemy, input, levelUp.get(3), enemyType, enemyHealth, enemyDamage, 
+								expGained, strife, hasSword, hasMagicSword);
+					}
+					break;
+
+				case 2:
+					System.out.println("Medicine Kit x" + medKits);
+					System.out.println();
+					System.out.println("1. Use");
+					System.out.println("2. Back");
+					input = playerInput.nextInt();
+
+					do{
+
+						if(input == 1){
+
+							if(levelUp.get(3) == levelUp.get(4)){
+								System.out.println("You can't use that right now!");
+								break;
+							} else if(shop.get(0) == 0){
+								System.out.println("You have no Medicine Kits to use!");
+								break;
+
+							} else{
+
+								shop.set(0, shop.get(0) - 1);
+								levelUp.set(3, levelUp.get(4));
+								System.out.println("You used a Medicine Kit.");
+								p();
+								System.out.println();
+								return shop;
+							}
+
+						} else if(input == 2){
+
+							menu(shop, levelUp, medKits, swords, magicSwords, playerTreasure, 
+									treasureGained, strife, hasSword, hasMagicSword, enemy, enemyType,
+									enemyHealth, enemyDamage, expGained);
+
+						} else{
+							System.out.println("Please choose one of the available options.");
+							input = playerInput.nextInt();
+						}
+
+					} while((input != 1) && (input != 2));
+
+					input = playerInput.nextInt();
+
+					switch(shop.get(5)){
+					case 1:
+						strife(shop, levelUp, enemy, enemyType, enemyHealth, enemyDamage, strife,
+								hasSword, hasMagicSword,expGained);
+						break; //end case 1
+
+					case 2:
+						via(shop, levelUp, shop.get(5), enemy, input, levelUp.get(3), enemyType, enemyHealth, enemyDamage, 
+								expGained, strife, hasSword, hasMagicSword);
+						break; //end case 2
+
+					case 3:
+						shop(shop, levelUp, shop.get(5), enemy, input, levelUp.get(5), enemyType, enemyHealth, enemyDamage, 
+								expGained, strife, shop.get(0), shop.get(1), shop.get(2), shop.get(3), shop.get(4),
+								hasSword, hasMagicSword);
+						break; //end case 3
+
+					case 4:
+						inn(shop, levelUp, shop.get(5), enemy, input, enemyType, levelUp.get(3), enemyHealth, 
+								enemyDamage, expGained, strife, hasSword, hasMagicSword);
+						break; //end case 4
+
+					default:
+						via(shop, levelUp, shop.get(5), enemy, input, levelUp.get(3), enemyType, enemyHealth, enemyDamage, 
+								expGained, strife, hasSword, hasMagicSword);
+					}
+					break;
+
+				case 3:
+					if((shop.get(1) == 0) && (shop.get(2) == 0)){
+						System.out.println("You have no Swords to equip!");
+						break;
+
+					} else if((shop.get(1) > 0) && (shop.get(2) > 0)){
+						System.out.println("Sword x" + swords);
+						System.out.println("Enchanted Sword x" + magicSwords);
+						p();
+						System.out.println();
+						System.out.println("1. Equip Sword");
+						System.out.println("2. Equip Enchanted Sword");
+						System.out.println("3. Back");
+						input = playerInput.nextInt();
+
+						do{
+							switch(input){
+							case 1:
+								if(hasMagicSword){
+									hasMagicSword = false;
+									System.out.println("You unequipped your Enchanted Sword!");
+								}
+								hasSword = true;
+								System.out.println("You equipped the Sword!");
+								break; //end case 1
+
+							case 2:
+								if(hasSword){
+									hasSword = false;
+									System.out.println("You unequipped your Sword!");
+								}
+								hasSword = true;
+								System.out.println("You equipped the Enchanted Sword!");
+								break; //end case 2
+
+							case 3:
+								menu(shop, levelUp, medKits, swords, magicSwords, playerTreasure, 
+										treasureGained, strife, hasSword, hasMagicSword, enemy, enemyType,
+										enemyHealth, enemyDamage, expGained);
+								break; //end case 3
+
+							default:
+								System.out.println("Please choose one of the available options.");
+								input = playerInput.nextInt();
+								break;
+
+							}
+
+						} while((input != 1) && (input != 2) && (input != 3));
+
+					}
+
+				default:
+					System.out.println("Please choose one of the available options.");
+					playerInput.nextInt();
+					break;
+
+				}
+			} while((input != 1) && (input != 2) && (input != 3));
+		}
+		
+		return shop;
+
+	}
+
+	//Function for pauses because I am lazy
+	public static void p(){
+		try{Thread.sleep(1000);}catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+	}
+
+}
